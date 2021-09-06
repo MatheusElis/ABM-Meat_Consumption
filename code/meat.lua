@@ -12,14 +12,17 @@ Agents atributes:
 @MeatHlth: concerns related to the impact of meat on the Health;
 @MeatWelf: concerns related to the impact of meat on the Animal Welfare;
 @livcost1: price sensitivity;
-@ag.ped: Price elasticity demand associated with the income level;
+@ag.ped: price elasticity demand associated with the income level;
 @fam_alpha: personal susceptibility towards other family members;
 @work_alpha: personal susceptibility towards other colleagues;
 @eat_meat_t0: probability to consume a meal based on meat at t = 0;
 --]]
 
--- Constantes
+-- Constants
 b = {-6.321, 0.655, 0.016, 0.287, 0.623, 0.178, 0.101}
+
+-- Functions
+
 
 -- Criar a sociedade:
 agent = Agent{
@@ -59,7 +62,7 @@ agent = Agent{
 }
 
 society = Society{
-    file ="D:/documentos/INPE/modelagem/projeto_final/modelo_Terrame/data/dadosFiltrados.csv",
+    file ="D:/documentos/INPE/modelagem/projeto_final/modelo_Terrame/data/sample_100.csv",
     sep = ",", -- default
     source = "csv",
     instance = agent
