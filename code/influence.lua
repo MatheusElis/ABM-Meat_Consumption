@@ -2,15 +2,33 @@
 #######               SOCIAL INFLUENCE
 --]]
 
+--[[
+@SNI_Time_Active: check if a intevention will occur
+@SNI_cycle: check if a intervention will recurr every 6 months rather than being one-off
+@SNI_Int_Length: duration of the intervention
+@par_ext_source_max: change consumers' concerns due not explicitly modelled by the simulation
+@Int_Target: intervention targets
+@actual_gamma_hlt: decay function of a social-norm campaign based on health impact
+@actual_gamma_env: decay function of a social-norm campaign based on env costs
+@actual_gamma_awe: decay function of a social-norm campaign based on animal welfare
+@gamma_{env, hlt, awe}: campaigns investments (0 = N/A) .25/.50/.75 = Small/Medium/Big
+--]]
+
 -- Notes
 -- -- par_ext_source_max was subject to sensitivity analysis: To replicate British consumers' meat consumption is suggested to be equal to 0.10
 
 -- Constants
-gamma_env = 0.5 -- [0.0, 0.75]
+gamma_env = 0.5 -- {0.0, 0.25, 0.5, 0.75}
+gamma_hlt = 0.5 -- {0.0, 0.25, 0.5, 0.75}
+gamma_awe = 0.5 -- {0.0, 0.25, 0.5, 0.75}
 par_ext_source_max = 0.10 -- [0.01, 1.00]
+SNI_Time_Active = true
+SNI_cycle = false
+SNI_Int_Length = 157 -- [0, 157] weeks
+Int_Target = 'NA' -- {NA, env_conc, env_unconc}
 
 -- Manage what concerns among the tree ones will undergo a process of influence influence
-social_infl = function()
+social_influence = function()
   random_p1 = Random{min = 0, max = 1}:sample()
   random_p2 = Random{min = 0, max = 1}:sample()
 
@@ -19,19 +37,20 @@ social_infl = function()
     random_p4 = Random{min = 0, max = 1}:sample()
 
     if random_p3 > random_p4 then
-      local social_influence_env = 0
-      local social_influence_hlt = 0
+      social_influence_env() -- agent
+    else
+      social_influence_hlt() -- agent
     end
 
-    local social_influence_awe = 0
-
+  else
+    social_influence_awe() -- agent
   end
-end -- social_infl
+end -- social_influence
 
 -- Check if an intervention is active looking at the temporal conditions.
 -- If so, it set "SNI.Time.Active?" TRUE and allows agents to influence and being influenced due to the intervention.
 
-actv_intervt = function()
+active_intervention = function()
   if model.SNI_Time_Active == true then
     if weeks >= 5 then
       -- Check if the campaigns cycle
@@ -77,43 +96,10 @@ social_influence_env = function()
     actual_gamma_env = gamma_env * math.exp(-0.125 * SNI_week_counter)
   end
 
-  ------------------------------ ENIRONMENT ------------------------------------
+  ------------------------------ ENVIRONMENT ------------------------------------
   -- Individual concern of the agent weighted for personal factor alpha
   agent.ind_env = (1 - temp_alpha) * agent.MeatEnv
 
-
-
-  -- Change consumers' concerns due not explicitly modelled by the simulation (e.g. influences by media, bad food experiences, etc.)
-  local random_p = Random{min = 0, max = 1}:sample()
-  if random_p >= 0 and random_p < 0.33 then
-    agent.MeatEnv = agent.MeatEnv + (Random{min = 0, max = par_ext_source_max * 2}:sample() - par_ext_source_max)
-
-    if agent.MeatEnv <= 1 then
-      agent.MeatEnv = 1
-
-    elseif agent.MeatEnv >= 5 then
-      agent.MeatEnv = 5
-    end
-
-  elseif (random_p >= 0.33 and random_p < 0.66) then
-    agent.MeatHlth = agent.MeatHlth + (Random{min = 0, max = par_ext_source_max * 2}:sample() - par_ext_source_max)
-
-    if agent.MeatHlth <= 1 then
-      agent.MeatHlth = 1
-
-    elseif agent.MeatHlth >= 5 then
-      agent.MeatHlth = 5
-    end
-
-    agent.MeatWelf = agent.MeatWelf + (Random{min = 0, max = par_ext_source_max * 2}:sample() - par_ext_source_max)
-
-    if agent.MeatWelf <= 1 then
-      agent.MeatWelf = 1
-
-    elseif agent.MeatWelf >= 5 then
-      agent.MeatWelf = 5
-    end
-  end
 end -- social_influence_env
 
 --[[to social-influence-env [locals]
@@ -137,16 +123,28 @@ end -- social_influence_env
   if ag.env <= 1 [set ag.env 1]
   if ag.env >= 5 [set ag.env 5]
 end
+--]]
 
-;; Compute social influence with respect to agent's health concerns
-to social-influence-hlt [locals]
-  let temp.alpha 0
-  if home.eating? = TRUE [set temp.alpha fam.alpha]
-  if work.eating? = TRUE [set temp.alpha work.alpha]
-  set actual.gamma.hlt 0
-  if ((SNI.YN.Active? = TRUE) AND (SNI.Time.Active? = TRUE))
-  [ set actual.gamma.hlt (gamma.hlt)*(e ^ (-0.0125 * SNI.week.counter)) ]
-  ;; HEALTH
+-- Compute social influence with respect to agent's health concerns
+social_influence_hlt = function()
+  local temp_alpha = 0
+
+  if home_eating == true then
+    temp_alpha = agent.fam_alpha
+  elseif work_eating == true then
+    temp_alpha = agent.work_alpha
+  end -- eating
+
+  actual_gamma_hlt = 0
+
+  if SNI_Time_Active == true and SNI_Time_Active == true then
+    actual_gamma_hlt = gamma_hlt * math.exp(-0.0125 * SNI_week_counter)
+  end
+
+end -- social_influence_hlt
+
+  --[[
+;; HEALTH
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Individual concern of the agent weighted for personal factor alpha
   let ag.ind.hlt (1 - temp.alpha) * ag.hlt
@@ -170,16 +168,27 @@ to social-influence-hlt [locals]
   if ag.hlt <= 1 [set ag.hlt 1]
   if ag.hlt >= 5 [set ag.hlt 5]
 end
+--]]
 
-;; Compute social influence with respect to agent's animal welfare concerns
-to social-influence-awe [locals]
-  let temp.alpha 0
-  if home.eating? = TRUE [set temp.alpha fam.alpha]
-  if work.eating? = TRUE [set temp.alpha work.alpha]
-  set actual.gamma.awe 0
-  if ((SNI.YN.Active? = TRUE) AND (SNI.Time.Active? = TRUE))
-  [ set actual.gamma.awe (gamma.awe)*(e ^ (-0.0125 * SNI.week.counter)) ]
-  ;; ANIMAL WELFARE
+-- Compute social influence with respect to agent's animal welfare concerns
+social_influence_awe = function()
+  local temp_alpha = 0
+
+  if home_eating == true then
+    temp_alpha = agent.fam_alpha
+  elseif work_eating == true then
+    temp_alpha = agent.work_alpha
+  end -- eating
+
+  actual_gamma_awe = 0
+
+  if SNI_Time_Active == true and SNI_Time_Active == true then
+    actual_gamma_awe = gamma_awe * math.exp(-0.0125 * SNI_week_counter)
+  end
+end -- social_influence_awe
+
+--[[
+;; ANIMAL WELFARE
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;; Individual concern of the agent weighted for personal factor alpha
   let ag.ind.awe (1 - temp.alpha) * ag.awe
@@ -205,3 +214,38 @@ to social-influence-awe [locals]
 end
 end
 --]]
+
+-- Change consumers' concerns due not explicitly modelled by the simulation (e.g. influences by media, bad food experiences, etc.)
+ext_sources_of_influence = function()
+  local random_p = Random{min = 0, max = 1}:sample()
+  if random_p >= 0 and random_p < 0.33 then
+    agent.MeatEnv = agent.MeatEnv + (Random{min = 0, max = par_ext_source_max * 2}:sample() - par_ext_source_max)
+
+    if agent.MeatEnv <= 1 then
+      agent.MeatEnv = 1
+
+    elseif agent.MeatEnv >= 5 then
+      agent.MeatEnv = 5
+    end
+
+  elseif (random_p >= 0.33 and random_p < 0.66) then
+    agent.MeatHlth = agent.MeatHlth + (Random{min = 0, max = par_ext_source_max * 2}:sample() - par_ext_source_max)
+
+    if agent.MeatHlth <= 1 then
+      agent.MeatHlth = 1
+
+    elseif agent.MeatHlth >= 5 then
+      agent.MeatHlth = 5
+    end
+
+  else
+    agent.MeatWelf = agent.MeatWelf + (Random{min = 0, max = par_ext_source_max * 2}:sample() - par_ext_source_max)
+
+    if agent.MeatWelf <= 1 then
+      agent.MeatWelf = 1
+
+    elseif agent.MeatWelf >= 5 then
+      agent.MeatWelf = 5
+    end
+  end
+end -- ext_sources_of_influence

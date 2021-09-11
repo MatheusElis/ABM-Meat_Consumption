@@ -35,10 +35,10 @@ agent = Agent{
     ped = 0,
     fam_alpha  = 0 + Random{mean = 0.15, sd = 0.05}:sample(),
     work_alpha  = 0 + Random{mean = 0.08, sd = 0.01}:sample(),
-    
+
     execute = function(agent)
-        
-        if agent.REconAct == 1 then 
+
+        if agent.REconAct == 1 then
             agent.worker = true
         end
         local max_team_ID = createWorkerNetWork(society)
