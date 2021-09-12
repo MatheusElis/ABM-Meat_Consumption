@@ -17,7 +17,10 @@ Agents atributes:
 @work_alpha: personal susceptibility towards other colleagues;
 @eat_meat_t0: probability to consume a meal based on meat at t = 0;
 --]]
+require 'code/family'
 require 'code/workers'
+
+
 -- Constants
 b = {-6.321, 0.655, 0.016, 0.287, 0.623, 0.178, 0.101}
 
@@ -42,6 +45,8 @@ agent = Agent{
             agent.worker = true
         end
         local max_team_ID = createWorkerNetWork(society)
+        local max_family_ID = createFamilyNetWork(society)
+        print(max_family_ID)
         if society:get(agent.id).REarnD >= 0 and society:get(agent.id).REarnD < 3 then
             agent.ped = 0.839
         else
@@ -82,28 +87,5 @@ society = Society{
 society:execute() -- call execute for each agent
 society:run() -- call run for each agent
 
-agente_id = {}
-eat_meat_t0 = {}
-forEachAgent(society, function(agente)
-    table.insert(agente_id, tonumber(agente.id))
-    table.insert(eat_meat_t0, agente.eat_meat_t0)
-end)
 
-function bubbleSort(A,B)
-    local n = #A
-    local swapped = false
-    repeat
-      swapped = false
-      for i=2,n do   -- 0 based is for i=1,n-1 do
-        if A[i-1] > A[i] then
-          A[i-1],A[i] = A[i],A[i-1]
-          B[i-1],B[i] = B[i],B[i-1]
-          swapped = true
-        end
-      end
-    until not swapped
-  end
-bubbleSort(eat_meat_t0,agente_id)
-for _,n in pairs(agente_id) do
-    print(society:get(n).eat_meat_t0)
-end
+print(society.get(87))

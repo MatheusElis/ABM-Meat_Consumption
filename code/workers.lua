@@ -1,6 +1,6 @@
 function getSocialWorkerNetwork(soc, agent, team_ID)
 	local quant = 1
-    local rs = SocialNetwork{name = team_ID}
+    local rs = SocialNetwork{}
 
     local mean_team_size = 4
     local quanti_total = Random{mean = mean_team_size, sd = 0.05}:sample()
@@ -22,13 +22,15 @@ function getSocialWorkerNetwork(soc, agent, team_ID)
 
 	return rs
 end
-team_ID = 1
+
+
 function createWorkerNetWork(soc)
+    team_ID = 1
     forEachAgent(soc, function(agent)
         if agent.worker == true and agent.team_member == false then
-            getSocialWorkerNetwork(soc, agent, team_ID)
+            local name = 'team_'..tostring(team_ID)
+            agent:addSocialNetwork(getSocialWorkerNetwork(soc, agent, team_ID),name)
             team_ID = team_ID + 1
-            -- print(team_ID)
         end
     end)
     return team_ID
