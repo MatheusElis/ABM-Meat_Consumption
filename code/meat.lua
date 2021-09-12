@@ -20,7 +20,6 @@ Agents atributes:
 require 'code/family'
 require 'code/workers'
 
-
 -- Constants
 b = {-6.321, 0.655, 0.016, 0.287, 0.623, 0.178, 0.101}
 
@@ -44,9 +43,8 @@ agent = Agent{
         if agent.REconAct == 1 then
             agent.worker = true
         end
-        local max_team_ID = createWorkerNetWork(society)
-        local max_family_ID = createFamilyNetWork(society)
-        print(max_family_ID)
+        
+        
         if society:get(agent.id).REarnD >= 0 and society:get(agent.id).REarnD < 3 then
             agent.ped = 0.839
         else
@@ -72,8 +70,14 @@ agent = Agent{
         local above = math.exp(y)
         local below = (1 + math.exp(y))
         agent.eat_meat_t0 = (1 - (above / below)) * society:get(agent.id).MeatHab
+        
     end, -- execute
-
+    createNetworks = function ()
+        --local max_family_ID = createFamilyNetWork(society)
+        local max_team_ID = createWorkerNetWork(society)
+     
+    end,
+    
     run = function() end,
 }
 
@@ -85,7 +89,8 @@ society = Society{
 }
 
 society:execute() -- call execute for each agent
+society:createNetworks()
 society:run() -- call run for each agent
 
 
-print(society.get(87))
+print(society:get(2).socialnetworks)

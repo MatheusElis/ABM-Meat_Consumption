@@ -6,31 +6,44 @@ function getSocialWorkerNetwork(soc, agent, team_ID)
     local quanti_total = Random{mean = mean_team_size, sd = 0.05}:sample()
 
     rs:add(agent)
+    
     agent.team_member = true
     agent.agent_team_ID = team_ID
-
+    
     --print(team_ID)
-    while quant < quanti_total do
-        local randomagent = soc:sample(agent.ReconAct == 1)
-        if randomagent ~= agent and randomagent.team_member == false then
-            rs:add(randomagent, 1)
-            randomagent.team_member = true
-            randomagent.agent_team_ID = team_ID
-            quant = quant + 1
+    forEachAgent(soc,function(randomagent)
+        if quant > quanti_total then 
+            return rs 
         end
-    end
+        
+            if randomagent ~= agent and randomagent.team_member == false and randomagent.worker== true then
+                
+                rs:add(randomagent)
+                randomagent.team_member = true
+                randomagent.agent_team_ID = team_ID
+                quant = quant + 1
+            end
+    end)
+    
 
 	return rs
 end
 
-
+team_ID = 1
 function createWorkerNetWork(soc)
-    team_ID = 1
+    
     forEachAgent(soc, function(agent)
         if agent.worker == true and agent.team_member == false then
+            
             local name = 'team_'..tostring(team_ID)
             agent:addSocialNetwork(getSocialWorkerNetwork(soc, agent, team_ID),name)
             team_ID = team_ID + 1
+            forEachConnection(agent,name, function(friend)
+                local sn = agent:getSocialNetwork(name)
+
+                friend:addSocialNetwork(sn,name)
+                
+            end)
         end
     end)
     return team_ID
