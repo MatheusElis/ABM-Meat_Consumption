@@ -1,5 +1,8 @@
 -- Probability to eat meat in a meal
 
+-- Constants
+b = {-6.321, 0.655, 0.016, 0.287, 0.623, 0.178, 0.101}
+
 -- Report the probability to consume a meal based on meat using the inverse log reg function at any time during the simulation
 eat_meat_prob = function(week, agent)
         y = ( b[1] + (b[2] * society:get(agent.id).Rsex) + (b[3] * society:get(agent.id).Rage) + (b[4] * society:get(agent.id).MeatEnv) + (b[5] * society:get(agent.id).MeatHlth) + (b[6] * society:get(agent.id).MeatWelf) + (b[7] * society:get(agent.id).livcost1) * (meat_price(week) / 100))
