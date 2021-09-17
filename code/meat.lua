@@ -19,7 +19,9 @@ Agents atributes:
 --]]
 require 'code/family'
 require 'code/workers'
+random = Random()
 
+random:reSeed(42)
 -- Constants
 b = {-6.321, 0.655, 0.016, 0.287, 0.623, 0.178, 0.101}
 
@@ -73,7 +75,8 @@ agent = Agent{
         
     end, -- execute
     createNetworks = function ()
-        --local max_family_ID = createFamilyNetWork(society)
+        local max_family_ID = createFamilyNetWork(society)
+        --print(max_family_ID)
         local max_team_ID = createWorkerNetWork(society)
      
     end,
@@ -91,6 +94,18 @@ society = Society{
 society:execute() -- call execute for each agent
 society:createNetworks()
 society:run() -- call run for each agent
+-- agentee = society:get(84)
+-- print(agentee)
+-- forEachSocialNetwork(agentee, function(idx)
+--     print(idx)
+--     print(agentee.socialnetworks)
+-- end)
 
+-- forEachAgent(society, function(agentee)
+--     print(agentee.id)
+--     forEachSocialNetwork(agentee, function(idx)
+--         print(idx)
+--         print(agentee:getSocialNetwork(idx))
+--     end)
+-- end)
 
-print(society:get(2).socialnetworks)
