@@ -17,8 +17,8 @@ Agents atributes:
 @work_alpha: personal susceptibility towards other colleagues;
 @eat_meat_t0: probability to consume a meal based on meat at t = 0;
 --]]
-require 'code/family'
-require 'code/workers'
+require 'family'
+require 'workers'
 random = Random()
 
 random:reSeed(42)
@@ -45,8 +45,8 @@ agent = Agent{
         if agent.REconAct == 1 then
             agent.worker = true
         end
-        
-        
+
+
         if society:get(agent.id).REarnD >= 0 and society:get(agent.id).REarnD < 3 then
             agent.ped = 0.839
         else
@@ -72,20 +72,20 @@ agent = Agent{
         local above = math.exp(y)
         local below = (1 + math.exp(y))
         agent.eat_meat_t0 = (1 - (above / below)) * society:get(agent.id).MeatHab
-        
+
     end, -- execute
     createNetworks = function ()
         local max_family_ID = createFamilyNetWork(society)
         --print(max_family_ID)
         local max_team_ID = createWorkerNetWork(society)
-     
+
     end,
-    
+
     run = function() end,
 }
 
 society = Society{
-    file ="data/sample_397.csv",
+    file ="D:/documentos/INPE/modelagem/projeto_final/modelo_Terrame/data/sample_397.csv",
     sep = ",", -- default
     source = "csv",
     instance = agent
