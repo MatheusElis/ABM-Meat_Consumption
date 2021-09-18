@@ -276,37 +276,37 @@ EMC = Model{
                         end) --forEachAgent
 
                         div = (#model.society - count_veg)
-                        div_low = (#model.society - count_hight)
-                        div_hight = (#model.society - count_low)
-                        div_young = (#model.society - div_adult - div_elder)
-                        div_adult = (#model.society - div_young - div_elder)
-                        div_elder = (#model.society - div_young - div_adult)
+                        div_low1 = (#model.society - count_hight)
+                        div_hight1 = (#model.society - count_low)
+                        div_young1 = (#model.society - div_adult - div_elder)
+                        div_adult1 = (#model.society - div_young - div_elder)
+                        div_elder1 = (#model.society - div_young - div_adult)
 
                         model.prob_eat_meat_t0 = model.eat_meat_t0/ div
                         --print(prob_eat_meat_t0)
                         model.prob_eat_meat_day = model.avg_prob_eat_meat_day / div
                         model.std_meat_day = model.std_meat_day / div
                         model.tax_meat_day = model.tax_meat_day / div
-                        model.low_eat_meat_t0 = model.low_eat_meat_t0 / div_low
-                        model.low_prob_eat_meat_day = model.low_prob_eat_meat_day / div_low
-                        model.low_std_meat_day = model.low_std_meat_day / div_low
-                        model.low_tax_meat_day = model.low_tax_meat_day / div_low
-                        model.hight_eat_meat_t0 = model.hight_eat_meat_t0 / div_hight
-                        model.hight_prob_eat_meat_day = model.hight_prob_eat_meat_day / div_hight
-                        model.hight_std_meat_day = model.hight_std_meat_day / div_hight
-                        model.hight_tax_meat_day = model.hight_tax_meat_day / div_hight
-                        model.young_eat_meat_t0 = model.young_eat_meat_t0 / div_young
-                        model.young_prob_eat_meat_day = model.young_prob_eat_meat_day / div_young
-                        model.young_std_meat_day = model.young_std_meat_day / div_young
-                        model.young_tax_meat_day = model.young_tax_meat_day / div_young
-                        model.adult_eat_meat_t0 = model.adult_eat_meat_t0 / div_adult
-                        model.adult_prob_eat_meat_day = model.adult_prob_eat_meat_day / div_adult
-                        model.adult_std_meat_day = model.adult_std_meat_day / div_adult
-                        model.adult_tax_meat_day = model.adult_tax_meat_day / div_adult
-                        model.elder_eat_meat_t0 = model.elder_eat_meat_t0 / div_elder
-                        model.elder_prob_eat_meat_day = model.elder_prob_eat_meat_day / div_elder
-                        model.elder_std_meat_day = model.elder_std_meat_day / div_elder
-                        model.elder_tax_meat_day = model.elder_tax_meat_day / div_elder
+                        model.low_eat_meat_t0 = model.low_eat_meat_t0 / div_low1
+                        model.low_prob_eat_meat_day = model.low_prob_eat_meat_day / div_low1
+                        model.low_std_meat_day = model.low_std_meat_day / div_low1
+                        model.low_tax_meat_day = model.low_tax_meat_day / div_low1
+                        model.hight_eat_meat_t0 = model.hight_eat_meat_t0 / div_hight1
+                        model.hight_prob_eat_meat_day = model.hight_prob_eat_meat_day / div_hight1
+                        model.hight_std_meat_day = model.hight_std_meat_day / div_hight1
+                        model.hight_tax_meat_day = model.hight_tax_meat_day / div_hight1
+                        model.young_eat_meat_t0 = model.young_eat_meat_t0 / div_young1
+                        model.young_prob_eat_meat_day = model.young_prob_eat_meat_day / div_young1
+                        model.young_std_meat_day = model.young_std_meat_day / div_young1
+                        model.young_tax_meat_day = model.young_tax_meat_day / div_young1
+                        model.adult_eat_meat_t0 = model.adult_eat_meat_t0 / div_adult1
+                        model.adult_prob_eat_meat_day = model.adult_prob_eat_meat_day / div_adult1
+                        model.adult_std_meat_day = model.adult_std_meat_day / div_adult1
+                        model.adult_tax_meat_day = model.adult_tax_meat_day / div_adult1
+                        model.elder_eat_meat_t0 = model.elder_eat_meat_t0 / div_elder1
+                        model.elder_prob_eat_meat_day = model.elder_prob_eat_meat_day / div_elder1
+                        model.elder_std_meat_day = model.elder_std_meat_day / div_elder1
+                        model.elder_tax_meat_day = model.elder_tax_meat_day / div_elder1
 
 
                         dt:add{current_year = model.year, current_week = model.week, current_day = model.day,prob_eat_meat_t0 = model.prob_eat_meat_t0, prob_eat_meat_day = model.prob_eat_meat_day, std_meat_day = model.std_meat_day, tax_meat_day = model.tax_meat_day, low_eat_meat_t0 = model.low_eat_meat_t0, low_prob_eat_meat_day = model.low_prob_eat_meat_day, low_std_meat_day = model.low_std_meat_day, low_tax_meat_day = model.low_tax_meat_day, hight_eat_meat_t0 = model.hight_eat_meat_t0, hight_prob_eat_meat_day = model.hight_prob_eat_meat_day, hight_std_meat_day = model.hight_std_meat_day, hight_tax_meat_day = model.hight_tax_meat_day, young_eat_meat_t0 = model.young_eat_meat_t0, young_prob_eat_meat_day = model.young_prob_eat_meat_day, young_std_meat_day = model.young_std_meat_day, young_tax_meat_day = model.young_tax_meat_day, adult_eat_meat_t0 = model.adult_eat_meat_t0, adult_prob_eat_meat_day = model.adult_prob_eat_meat_day, adult_std_meat_day = model.adult_std_meat_day, adult_tax_meat_day = model.adult_tax_meat_day, elder_eat_meat_t0 = model.elder_eat_meat_t0, elder_prob_eat_meat_day = model.elder_prob_eat_meat_day, elder_std_meat_day = model.elder_std_meat_day, elder_tax_meat_day = model.elder_tax_meat_day}
