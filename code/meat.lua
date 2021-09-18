@@ -42,13 +42,21 @@ criar_agente = function()
             ped = 0,
             fam_alpha  = 0 + Random{mean = 0.15, sd = 0.05}:sample(),
             work_alpha  = 0 + Random{mean = 0.08, sd = 0.01}:sample(),
+            tax_gMeat_b = 0,
+            tax_gMeat_l = 0,
+            tax_gMeat_d = 0,
+            tax_gMeat = 0,
+            gMeat_day = 0,
+            std_gMeat_b = 0,
+            std_gMeat_l = 0,
+            std_gMeat_d = 0,
+            eat_meat = 0,
 
             execute = function(agent)
 
                 if agent.REconAct == 1 then
                     agent.worker = true
                 end
-
 
                 if society:get(agent.id).REarnD >= 0 and society:get(agent.id).REarnD < 3 then
                     agent.ped = 0.839
@@ -78,15 +86,15 @@ criar_agente = function()
 
             end, -- execute
             createNetworks = function ()
-                local max_family_ID = createFamilyNetWork(society)
+                createFamilyNetWork(society)
                 --print(max_family_ID)
-                local max_team_ID = createWorkerNetWork(society)
+                createWorkerNetWork(society)
 
             end,
         } -- agent
 
     society = Society{
-        file ="D:/documentos/INPE/modelagem/projeto_final/modelo_Terrame/data/sample_397.csv",
+        file ="D:/documentos/INPE/modelagem/projeto_final/modelo_Terrame/data/dadosFiltrados.csv",
         sep = ",", -- default
         source = "csv",
         instance = agent
