@@ -276,11 +276,11 @@ EMC = Model{
                         end) --forEachAgent
 
                         div = (#model.society - count_veg)
-                        div_low = (#model.society - count_low)
-                        div_hight = (#model.society - count_hight)
-                        div_young = (#model.society - div_young)
-                        div_adult = (#model.society - div_adult)
-                        div_elder = (#model.society - div_elder)
+                        div_low = (#model.society - count_hight)
+                        div_hight = (#model.society - count_low)
+                        div_young = (#model.society - div_adult - div_elder)
+                        div_adult = (#model.society - div_young - div_elder)
+                        div_elder = (#model.society - div_young - div_adult)
 
                         model.prob_eat_meat_t0 = model.eat_meat_t0/ div
                         --print(prob_eat_meat_t0)
