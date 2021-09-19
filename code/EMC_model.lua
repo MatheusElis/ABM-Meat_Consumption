@@ -27,6 +27,38 @@ b = {-6.321, 0.655, 0.016, 0.287, 0.623, 0.178, 0.101}
 --meat_price_increase = 1 -- [1%, 2%]
 --actual_meat_price = 0
 
+-- DataFrame
+dt = DataFrame{
+    meat_prince_increase = {},
+    current_year = {},
+    current_week = {},
+    current_day = {},
+    prob_eat_meat_t0 = {},
+    prob_eat_meat_day = {},
+    std_meat_day = {},
+    tax_meat_day = {},
+    low_eat_meat_t0 = {},
+    low_prob_eat_meat_day = {},
+    low_std_meat_day = {},
+    low_tax_meat_day = {},
+    hight_eat_meat_t0 = {},
+    hight_prob_eat_meat_day = {},
+    hight_std_meat_day = {},
+    hight_tax_meat_day = {},
+    young_eat_meat_t0 = {},
+    young_prob_eat_meat_day = {},
+    young_std_meat_day = {},
+    young_tax_meat_day = {},
+    adult_eat_meat_t0 = {},
+    adult_prob_eat_meat_day = {},
+    adult_std_meat_day = {},
+    adult_tax_meat_day = {},
+    elder_eat_meat_t0 = {},
+    elder_prob_eat_meat_day = {},
+    elder_std_meat_day = {},
+    elder_tax_meat_day = {}
+}
+
 EMC = Model{
     finalTime = 157*7,
     meat_price_increase = 1.5, -- [1, 2]
@@ -36,9 +68,6 @@ EMC = Model{
     week = 1,
     day = 1,
     year = 2014,
-
-    -- Dt
-    dt = {},
 
     -- Outputs
     eat_meat_t0 = 0,
@@ -71,39 +100,7 @@ EMC = Model{
         model.society, model.agent = criar_agente()
 
         model.society:execute() -- call execute for each agent
-        --model.society:createNetworks()
-
-        -- Dataframe
-        model.dt = DataFrame{
-            meat_prince_increase = {},
-            current_year = {},
-            current_week = {},
-            current_day = {},
-            prob_eat_meat_t0 = {},
-            prob_eat_meat_day = {},
-            std_meat_day = {},
-            tax_meat_day = {},
-            low_eat_meat_t0 = {},
-            low_prob_eat_meat_day = {},
-            low_std_meat_day = {},
-            low_tax_meat_day = {},
-            hight_eat_meat_t0 = {},
-            hight_prob_eat_meat_day = {},
-            hight_std_meat_day = {},
-            hight_tax_meat_day = {},
-            young_eat_meat_t0 = {},
-            young_prob_eat_meat_day = {},
-            young_std_meat_day = {},
-            young_tax_meat_day = {},
-            adult_eat_meat_t0 = {},
-            adult_prob_eat_meat_day = {},
-            adult_std_meat_day = {},
-            adult_tax_meat_day = {},
-            elder_eat_meat_t0 = {},
-            elder_prob_eat_meat_day = {},
-            elder_std_meat_day = {},
-            elder_tax_meat_day = {},
-            }
+        -- model.society:createNetworks()
 
         model.timer = Timer{
             Event{action = model.society},
@@ -217,7 +214,7 @@ EMC = Model{
                                 end -- for
                             else
                                 -- vegetarian
-                                count_veg = count_veg + 1
+                                local count_veg = count_veg + 1
 								std_gMeat_b = 0
 								tax_gMeat_b = 0
 								std_gMeat_l = 0
@@ -230,13 +227,13 @@ EMC = Model{
 
                             if agent.MeatHab == 1 then
                                 if agent.livcost1 == 0 or agent.livcost1 == 1 or agent.livcost1 == 2 then
-                                    count_low = count_low + 1
+                                    local count_low = count_low + 1
                                 else
-                                    count_hight = count_hight + 1
+                                    local count_hight = count_hight + 1
                                 end
 
-								tax_gMeat = tax_gMeat_b + tax_gMeat_d + tax_gMeat_l -- amount of meet with tax effect
-								std_gMeat = std_gMeat_b + std_gMeat_d + std_gMeat_l -- standart amount of meat
+								local tax_gMeat = tax_gMeat_b + tax_gMeat_d + tax_gMeat_l -- amount of meet with tax effect
+								local std_gMeat = std_gMeat_b + std_gMeat_d + std_gMeat_l -- standart amount of meat
                                 --prob_eat_meat_day = (eat_meat_prob_b + eat_meat_prob_l + eat_meat_prob_d)/3
 
                                 model.eat_meat_t0 = model.eat_meat_t0 + agent.eat_meat_t0  -- prob eat meat at t0
@@ -279,12 +276,12 @@ EMC = Model{
                             --print(model.elder_eat_meat_t0)
                         end) --forEachAgent
 
-                        div = (#model.society - count_veg)
-                        div_low1 = (#model.society - count_hight)
-                        div_hight1 = (#model.society - count_low)
-                        div_young1 = (#model.society - div_adult - div_elder)
-                        div_adult1 = (#model.society - div_young - div_elder)
-                        div_elder1 = (#model.society - div_young - div_adult)
+                        local div = (#model.society - count_veg)
+                        local div_low1 = (#model.society - count_hight)
+                        local div_hight1 = (#model.society - count_low)
+                        local div_young1 = (#model.society - div_adult - div_elder)
+                        local div_adult1 = (#model.society - div_young - div_elder)
+                        local div_elder1 = (#model.society - div_young - div_adult)
 
                         model.prob_eat_meat_t0 = model.eat_meat_t0/ div
                         --print(prob_eat_meat_t0)
@@ -313,9 +310,9 @@ EMC = Model{
                         model.elder_tax_meat_day = model.elder_tax_meat_day / div_elder1
 
 
-                        model.dt:add{meat_prince_increase = model.meat_price_increase, current_year = model.year, current_week = model.week, current_day = model.day,prob_eat_meat_t0 = model.prob_eat_meat_t0, prob_eat_meat_day = model.prob_eat_meat_day, std_meat_day = model.std_meat_day, tax_meat_day = model.tax_meat_day, low_eat_meat_t0 = model.low_eat_meat_t0, low_prob_eat_meat_day = model.low_prob_eat_meat_day, low_std_meat_day = model.low_std_meat_day, low_tax_meat_day = model.low_tax_meat_day, hight_eat_meat_t0 = model.hight_eat_meat_t0, hight_prob_eat_meat_day = model.hight_prob_eat_meat_day, hight_std_meat_day = model.hight_std_meat_day, hight_tax_meat_day = model.hight_tax_meat_day, young_eat_meat_t0 = model.young_eat_meat_t0, young_prob_eat_meat_day = model.young_prob_eat_meat_day, young_std_meat_day = model.young_std_meat_day, young_tax_meat_day = model.young_tax_meat_day, adult_eat_meat_t0 = model.adult_eat_meat_t0, adult_prob_eat_meat_day = model.adult_prob_eat_meat_day, adult_std_meat_day = model.adult_std_meat_day, adult_tax_meat_day = model.adult_tax_meat_day, elder_eat_meat_t0 = model.elder_eat_meat_t0, elder_prob_eat_meat_day = model.elder_prob_eat_meat_day, elder_std_meat_day = model.elder_std_meat_day, elder_tax_meat_day = model.elder_tax_meat_day}
+                        dt:add{meat_prince_increase = model.meat_price_increase, current_year = model.year, current_week = model.week, current_day = model.day,prob_eat_meat_t0 = model.prob_eat_meat_t0, prob_eat_meat_day = model.prob_eat_meat_day, std_meat_day = model.std_meat_day, tax_meat_day = model.tax_meat_day, low_eat_meat_t0 = model.low_eat_meat_t0, low_prob_eat_meat_day = model.low_prob_eat_meat_day, low_std_meat_day = model.low_std_meat_day, low_tax_meat_day = model.low_tax_meat_day, hight_eat_meat_t0 = model.hight_eat_meat_t0, hight_prob_eat_meat_day = model.hight_prob_eat_meat_day, hight_std_meat_day = model.hight_std_meat_day, hight_tax_meat_day = model.hight_tax_meat_day, young_eat_meat_t0 = model.young_eat_meat_t0, young_prob_eat_meat_day = model.young_prob_eat_meat_day, young_std_meat_day = model.young_std_meat_day, young_tax_meat_day = model.young_tax_meat_day, adult_eat_meat_t0 = model.adult_eat_meat_t0, adult_prob_eat_meat_day = model.adult_prob_eat_meat_day, adult_std_meat_day = model.adult_std_meat_day, adult_tax_meat_day = model.adult_tax_meat_day, elder_eat_meat_t0 = model.elder_eat_meat_t0, elder_prob_eat_meat_day = model.elder_prob_eat_meat_day, elder_std_meat_day = model.elder_std_meat_day, elder_tax_meat_day = model.elder_tax_meat_day}
 
-                        --print(model.day)
+                        print(model.day)
                         if model.day%7 == 0 then
                             model.week = model.week + 1
                         end -- update week
@@ -338,5 +335,5 @@ EMC = Model{
 EMC:run()
 --namefile = 'file' .. EMC:get(meat_price_increase)
 file = File("file.csv")
-file:write(EMC:get(model.dt), ",")
+file:write(dt ",")
 
