@@ -94,7 +94,7 @@ criar_agente = function()
         } -- agent
 
     society = Society{
-        file ="D:/documentos/INPE/modelagem/projeto_final/modelo_Terrame/data/dadosFiltrados.csv",
+        file ="C:/Users/mathe/Documents/modelagemSistemasTerrestres/ABM-Meat_Consumption/data/dadosFiltrados.csv",
         sep = ",", -- default
         source = "csv",
         instance = agent

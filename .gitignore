@@ -40,3 +40,4 @@ codigobase.lua
 *.hex
 
 *.csv
+*.log

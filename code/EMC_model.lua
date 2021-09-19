@@ -28,36 +28,7 @@ b = {-6.321, 0.655, 0.016, 0.287, 0.623, 0.178, 0.101}
 --actual_meat_price = 0
 
 -- DataFrame
-dt = DataFrame{
-    meat_prince_increase = {},
-    current_year = {},
-    current_week = {},
-    current_day = {},
-    prob_eat_meat_t0 = {},
-    prob_eat_meat_day = {},
-    std_meat_day = {},
-    tax_meat_day = {},
-    low_eat_meat_t0 = {},
-    low_prob_eat_meat_day = {},
-    low_std_meat_day = {},
-    low_tax_meat_day = {},
-    hight_eat_meat_t0 = {},
-    hight_prob_eat_meat_day = {},
-    hight_std_meat_day = {},
-    hight_tax_meat_day = {},
-    young_eat_meat_t0 = {},
-    young_prob_eat_meat_day = {},
-    young_std_meat_day = {},
-    young_tax_meat_day = {},
-    adult_eat_meat_t0 = {},
-    adult_prob_eat_meat_day = {},
-    adult_std_meat_day = {},
-    adult_tax_meat_day = {},
-    elder_eat_meat_t0 = {},
-    elder_prob_eat_meat_day = {},
-    elder_std_meat_day = {},
-    elder_tax_meat_day = {}
-}
+
 
 EMC = Model{
     finalTime = 157*7,
@@ -332,8 +303,8 @@ EMC = Model{
 
 
 
-EMC:run()
+-- EMC:run()
 --namefile = 'file' .. EMC:get(meat_price_increase)
-file = File("file.csv")
-file:write(dt ",")
+-- file = File("file.csv")
+-- file:write(dt, ",")
 
