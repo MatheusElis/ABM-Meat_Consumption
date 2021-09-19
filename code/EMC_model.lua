@@ -242,12 +242,12 @@ EMC = Model{
                                 model.tax_meat_day = model.tax_meat_day + tax_gMeat
 
                                 if agent.livcost1 == 0 or agent.livcost1 == 1 or agent.livcost1 == 2 then
-                                    model.low_eat_meat_t0 = model.low_eat_meat_t0 + model.eat_meat_t0
+                                    model.low_eat_meat_t0 = model.low_eat_meat_t0 + agent.eat_meat_t0
                                     model.low_prob_eat_meat_day = model.low_prob_eat_meat_day + prob_eat_meat_day
                                     model.low_std_meat_day = model.low_std_meat_day + std_gMeat
                                     model.low_tax_meat_day = model.low_tax_meat_day + tax_gMeat
                                 else
-                                    model.hight_eat_meat_t0 = model.hight_eat_meat_t0 + model.eat_meat_t0
+                                    model.hight_eat_meat_t0 = model.hight_eat_meat_t0 + agent.eat_meat_t0
                                     model.hight_prob_eat_meat_day = model.hight_prob_eat_meat_day + prob_eat_meat_day
                                     model.hight_std_meat_day = model.hight_std_meat_day + std_gMeat
                                     model.hight_tax_meat_day = model.hight_tax_meat_day + tax_gMeat
@@ -255,24 +255,25 @@ EMC = Model{
 
                                 if agent.Rage < 30 then
                                     div_young = div_young + 1
-                                    model.young_eat_meat_t0 = model.young_eat_meat_t0 + model.eat_meat_t0
+                                    model.young_eat_meat_t0 = model.young_eat_meat_t0 + agent.eat_meat_t0
                                     model.young_prob_eat_meat_day = model.young_prob_eat_meat_day + prob_eat_meat_day
                                     model.young_std_meat_day = model.young_std_meat_day + std_gMeat
                                     model.young_tax_meat_day = model.young_tax_meat_day + tax_gMeat
                                 elseif agent.Rage >= 30 and agent.Rage < 65 then
                                     div_adult = div_adult + 1
-                                    model.adult_eat_meat_t0 = model.adult_eat_meat_t0 + model.eat_meat_t0
+                                    model.adult_eat_meat_t0 = model.adult_eat_meat_t0 + agent.eat_meat_t0
                                     model.adult_prob_eat_meat_day = model.adult_prob_eat_meat_day + prob_eat_meat_day
                                     model.adult_std_meat_day = model.adult_std_meat_day + std_gMeat
                                     model.adult_tax_meat_day = model.adult_tax_meat_day + tax_gMeat
                                 else
                                     div_elder = div_elder + 1
-                                    model.elder_eat_meat_t0 = model.elder_eat_meat_t0 + model.eat_meat_t0
+                                    model.elder_eat_meat_t0 = model.elder_eat_meat_t0 + agent.eat_meat_t0
                                     model.elder_prob_eat_meat_day = model.elder_prob_eat_meat_day + prob_eat_meat_day
                                     model.elder_std_meat_day = model.elder_std_meat_day + std_gMeat
                                     model.elder_tax_meat_day = model.elder_tax_meat_day + tax_gMeat
                                 end
                             end
+                            --print(model.elder_eat_meat_t0)
                         end) --forEachAgent
 
                         div = (#model.society - count_veg)
