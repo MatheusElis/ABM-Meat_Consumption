@@ -312,7 +312,7 @@ EMC = Model{
 
                         dt:add{current_year = model.year, current_week = model.week, current_day = model.day,prob_eat_meat_t0 = model.prob_eat_meat_t0, prob_eat_meat_day = model.prob_eat_meat_day, std_meat_day = model.std_meat_day, tax_meat_day = model.tax_meat_day, low_eat_meat_t0 = model.low_eat_meat_t0, low_prob_eat_meat_day = model.low_prob_eat_meat_day, low_std_meat_day = model.low_std_meat_day, low_tax_meat_day = model.low_tax_meat_day, hight_eat_meat_t0 = model.hight_eat_meat_t0, hight_prob_eat_meat_day = model.hight_prob_eat_meat_day, hight_std_meat_day = model.hight_std_meat_day, hight_tax_meat_day = model.hight_tax_meat_day, young_eat_meat_t0 = model.young_eat_meat_t0, young_prob_eat_meat_day = model.young_prob_eat_meat_day, young_std_meat_day = model.young_std_meat_day, young_tax_meat_day = model.young_tax_meat_day, adult_eat_meat_t0 = model.adult_eat_meat_t0, adult_prob_eat_meat_day = model.adult_prob_eat_meat_day, adult_std_meat_day = model.adult_std_meat_day, adult_tax_meat_day = model.adult_tax_meat_day, elder_eat_meat_t0 = model.elder_eat_meat_t0, elder_prob_eat_meat_day = model.elder_prob_eat_meat_day, elder_std_meat_day = model.elder_std_meat_day, elder_tax_meat_day = model.elder_tax_meat_day}
 
-                        print(model.day)
+                        --print(model.day)
                         if model.day%7 == 0 then
                             model.week = model.week + 1
                         end -- update week
@@ -330,38 +330,10 @@ EMC = Model{
     end -- init
 } -- model
 
----- Scenarios
---env = Environment{
---    scenario1 = EMC{},
---    scenario2 = EMC{meat_prince_increase = 1.2},
---    scenario3 = EMC{meat_prince_increase = 1.1},
-----    scenario4 = EMC{scenario = 1},
-----    scenario5 = EMC{proportion = 80, consumption_increase = 0.025, scenario = 1}
---}
 
----- Create chart
---chart2 = Chart{
---    target = env,
---    select = "volume",
---    title = "EMC",
---    yLabel = "Volume available",
---    xLabel = "Duration",
---    --color = {{84, 13, 110}, {238, 66, 102}, {255, 210, 63}, {59, 206, 172}, {14, 173, 105}}
-----    color = {{12, 20, 70}}
---}
-
----- Add event
---env:add(Event{action = chart2})
 
 EMC:run()
-
+--namefile = 'file' .. EMC:get(meat_price_increase)
 file = File("file.csv")
 file:write(dt, ",")
 
----- Salvar grafico:
---env.scenario1.chart:save("scenario1.png")
---env.scenario2.chart:save("scenario2.png")
---env.scenario3.chart:save("scenario3.png")
-----env.scenario4.chart:save("scenario4.png")
-----env.scenario5.chart:save("scenario5.png")
---chart2:save("scenario_all.png")
